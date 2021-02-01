@@ -14,10 +14,10 @@ except ModuleNotFoundError as err:
 
 
 class MySQLForwarder:
-    '''
+    """
     Get mysql table records and sends logs to syslog
     Below _LOG needs to be modified according to sql query specified in query.py
-    '''
+    """
 
     _QUERY = query
 

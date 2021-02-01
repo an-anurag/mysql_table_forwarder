@@ -14,6 +14,10 @@ except ModuleNotFoundError as err:
 
 
 class MySQLForwarder:
+    '''
+    Get mysql table records and sends logs to syslog
+    Below _LOG needs to be modified according to sql query specified in query.py
+    '''
 
     _QUERY = query
 
@@ -28,10 +32,10 @@ class MySQLForwarder:
 
     def __init__(self):
         self.tz = pytz.timezone(config.read('time', 'timezone'))
-        self._user = config.read('siem', 'user')
-        self._password = config.read('siem', 'password')
-        self._host = config.read('siem', 'host')
-        self._database = config.read('siem', 'db')
+        self._user = config.read('mysql', 'user')
+        self._password = config.read('mysql', 'password')
+        self._host = config.read('mysql', 'host')
+        self._database = config.read('mysql', 'db')
         self._conn = None
         self._connected = False
         # socket conf
@@ -108,7 +112,7 @@ class MySQLForwarder:
                     self.send_to_logger(line=log)
                     print(log)
             else:
-                print("No alarms found")
+                print("No records found")
 
             # flush alarm store
             alarm_store.clear()
@@ -118,11 +122,3 @@ class MySQLForwarder:
 
         except Exception as error:
             logger.error(error)
-
-
-if __name__ == '__main__':
-
-    sql = MySQLForwarder()
-
-    if sql.connect():
-        sql.forward()

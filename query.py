@@ -1,3 +1,8 @@
+"""
+This is the sql query for mysql table from which we are fetching records
+This can be any sql 'SELECT' query
+"""
+
 query = '''
 SELECT ilv.TIMESTAMP, ilv.backlog_id, ilv.event_id, ilv.corr_engine_ctx, ilv.STATUS, ilv.plugin_id, ilv.plugin_sid,
 ilv.protocol, ilv.src_ip, ilv.dst_ip, ilv.src_port, ilv.dst_port, ilv.risk, ilv.efr, ilv.username,
@@ -34,8 +39,8 @@ LEFT OUTER JOIN event e ON a.event_id = e.id
 LEFT OUTER JOIN alarm_taxonomy ta ON a.plugin_sid=ta.sid AND a.corr_engine_ctx=ta.engine_id
 LEFT OUTER JOIN alarm_kingdoms ki ON ta.kingdom=ki.id LEFT OUTER JOIN alarm_categories ca ON ta.category=ca.id
 LEFT OUTER JOIN plugin p ON p.id = a.plugin_id
-LEFT OUTER JOIN plugin_sid ps ON p.ctx = ps.plugin_ctx
-AND p.id = ps.plugin_id AND ps.sid = a.plugin_sid
+LEFT OUTER JOIN plugin_sid ps ON -- p.ctx = ps.plugin_ctx
+p.id = ps.plugin_id AND ps.sid = a.plugin_sid
 LEFT OUTER JOIN host_ip hi ON hi.ip = a.dst_ip
 LEFT OUTER JOIN host h ON h.id = hi.host_id
 LEFT OUTER JOIN host_properties hp ON h.id = hp.host_id AND hp.property_ref =

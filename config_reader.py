@@ -6,7 +6,7 @@ Created on 10/9/2019
 """
 
 import os
-from configparser import RawConfigParser
+from ConfigParser import RawConfigParser
 
 
 class ConfigReader:
